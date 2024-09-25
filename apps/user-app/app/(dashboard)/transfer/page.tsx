@@ -17,7 +17,6 @@ async function getBalance() {
         locked: balance?.locked || 0
     }
 }
-
 async function getOnRampTransactions() {
     const session = await getServerSession(authOptions);
     const txns = await prisma.onRampTransaction.findMany({
@@ -25,7 +24,15 @@ async function getOnRampTransactions() {
             userId: Number(session?.user?.id)
         }
     });
-    return txns.map(t => ({
+    return txns.map((t: {
+        id: number;
+        status: string;
+        token: string;
+        provider: string;
+        amount: number;
+        startTime: Date;
+        userId: number;
+    }) => ({
         time: t.startTime,
         amount: t.amount,
         status: t.status,
