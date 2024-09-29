@@ -32,18 +32,29 @@ export const authOptions = {
             }
 
             try {
-                const user = await db.user.create({
-                    data: {
-                        number: credentials.phone,
-                        password: hashedPassword
+               const result =  await db.$transaction(async(tx)=>{
+                   const user = await tx.user.create({
+                        data: {
+                            number: credentials.phone,
+                            password: hashedPassword
+                        }
+                    });
+                    await tx.balance.create({
+                        data:{
+                            userId:Number(user.id),
+                            amount:0,
+                            locked:0,
+                        }
+                    })
+                    return {
+                        id: user.id.toString(),
+                        name: user.name,
+                        email: user.number
                     }
-                });
+                })
+                return result
             
-                return {
-                    id: user.id.toString(),
-                    name: user.name,
-                    email: user.number
-                }
+                
             } catch(e) {
                 console.error(e);
             }

@@ -6,6 +6,11 @@ const app = express();
 app.use(cors({
     origin: '*' // Replace with the frontend URL you want to allow
   }));
+  app.use(express.json())
+
+  app.get('/' , async(req , res)=>{
+    res.send("Hello World!")
+  })
 
 app.post("/hdfcwebhook" , async (req , res)=>{
     console.log(req.body)
@@ -15,7 +20,7 @@ app.post("/hdfcwebhook" , async (req , res)=>{
         amount:number
     } = {
         token : req.body.token,
-        userId : req.body.user_identifier,
+        userId : req.body.userId,
         amount:req.body.amount
     }
     // "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
@@ -24,7 +29,7 @@ app.post("/hdfcwebhook" , async (req , res)=>{
 
     try {
         await db.$transaction([
-            db.balance.update({
+            db.balance.updateMany({
                where :{
                    userId : Number(paymentInformation.userId)
                },
@@ -58,4 +63,6 @@ app.post("/hdfcwebhook" , async (req , res)=>{
 })
 
 
-app.listen(8080)
+app.listen(8000 , ()=>{
+    console.log("starting")
+})
