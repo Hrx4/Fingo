@@ -4,8 +4,7 @@ import { BalanceCard } from "../../../components/BalanceCard";
 import { OnRampTransactions } from "../../../components/OnRampTransactions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
-import { getSession } from "next-auth/react";
-import { GetServerSideProps } from "next";
+import { redirect } from "next/navigation";
 
 async function getBalance() {
   const session = await getServerSession(authOptions);
@@ -44,25 +43,12 @@ async function getOnRampTransactions() {
   );
 }
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//     const session = await getSession(context);
-
-//     if (!session) {
-//       // Redirect to login page if user is not authenticated
-//       return {
-//         redirect: {
-//           destination: "/api/auth/signin",
-//           permanent: false,
-//         },
-//       };
-//     }
-
-//     return {
-//       props: { session },
-//     };
-//   };
-
 export default async function () {
+
+  const session = await getServerSession(authOptions);
+  if(!session?.user) {
+    return redirect('/api/auth/signin')
+  }
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
 

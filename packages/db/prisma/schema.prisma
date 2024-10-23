@@ -24,8 +24,10 @@ model p2pTransfer {
   amount     Int
   timestamp  DateTime
   fromUserId Int
+  fromUserNumber String?
   fromUser   User         @relation(name: "FromUserRelation", fields: [fromUserId], references: [id])
   toUserId   Int
+  toUserNumber String?
   toUser     User         @relation(name: "ToUserRelation", fields: [toUserId], references: [id])
 }
 

@@ -22,6 +22,9 @@ export async function p2pTransfer(to: string, amount: number) {
             message: "User not found"
         }
     }
+    if(to === session?.user?.email)  return {
+      message: "From and to user number should be different"
+  }
     await prisma.$transaction(async (tx : any) => {
         // To lock the row until one transaction completes.
         await tx.$queryRaw `SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE` 
@@ -46,6 +49,8 @@ export async function p2pTransfer(to: string, amount: number) {
             data:{
                 fromUserId: Number(from),
                 toUserId:toUser.id,
+                toUserNumber: to,
+                fromUserNumber: session?.user?.email,
                 amount,
                 timestamp : new Date()
             }

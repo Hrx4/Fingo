@@ -23,10 +23,6 @@ app.post("/hdfcwebhook" , async (req , res)=>{
         userId : req.body.userId,
         amount:req.body.amount
     }
-    // "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
-    // "start": "node dist/index.js",
-    // "dev": "npm run build && npm run start"
-
     try {
         await db.$transaction([
             db.balance.updateMany({
@@ -64,5 +60,5 @@ app.post("/hdfcwebhook" , async (req , res)=>{
 
 
 app.listen(8000 , ()=>{
-    console.log("starting")
+    console.log("Listening on port 8000")
 })

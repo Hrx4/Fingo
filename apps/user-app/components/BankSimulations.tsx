@@ -41,7 +41,9 @@ const BankSimulations = ({
                 },
             }
             )
-            }}>
+            window.location.reload()
+            }
+            }>
                 {t.status}
             </Button>
           </td>

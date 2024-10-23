@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "p2pTransfer" ALTER COLUMN "fromUserNumber" SET DATA TYPE TEXT,
+ALTER COLUMN "toUserNumber" SET DATA TYPE TEXT;
