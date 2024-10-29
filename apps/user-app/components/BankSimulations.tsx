@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@repo/ui/button";
 import axios from "axios";
+import { backend } from "../app/api/backend";
 
 const BankSimulations = ({
   transactions,
@@ -30,7 +31,7 @@ const BankSimulations = ({
           <td>
             <Button
             onClick={async () => {
-              await axios.post("http://localhost:8000/hdfcwebhook/" , {
+              await axios.post(`${backend}/api/bank/` , {
                 token : t.token , 
                 userId : t.userId , 
                 amount : t.amount

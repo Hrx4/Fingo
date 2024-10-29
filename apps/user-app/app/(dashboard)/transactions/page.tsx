@@ -54,10 +54,10 @@ export default async function () {
           </Card>
         ) : (
           <Card title="Send">
-            {transactions.map((t) => {
+            {transactions.map((t , index) => {
               if (Number(t.fromUserNumber) === currentUserNumber) {
                 return (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between" key={index}>
                     <div>
                       <div className="text-sm">{t.toUserNumber}</div>
                       <div className="text-slate-600 text-xs">
@@ -82,10 +82,10 @@ export default async function () {
           </Card>
         ) : (
           <Card title="Recieve">
-            {transactions.map((t) => {
+            {transactions.map((t , index) => {
               if (Number(t.toUserNumber) === currentUserNumber) {
                 return (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between" key={index}>
                     <div>
                       <div className="text-sm">{t.fromUserNumber}</div>
                       <div className="text-slate-600 text-xs">

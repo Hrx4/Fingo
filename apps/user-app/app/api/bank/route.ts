@@ -1,28 +1,15 @@
-import express from "express"
+import { NextRequest, NextResponse } from "next/server"
 import db from "@repo/db/client"
-import cors from 'cors';
 import z from "zod"
-
-const app = express();
-
-app.use(cors({
-    origin: '*' // Replace with the frontend URL you want to allow
-  }));
-  app.use(express.json())
-
-  app.get('/' , async(req , res)=>{
-    res.send("Hello World!")
-  })
-
-app.post("/hdfcwebhook" , async (req , res)=>{
+export const POST = async(req : NextRequest) => {
+    const body = await req.json()
     const Payment = z.object({
         token:z.string() ,
         userId : z.number(),
         amount:z.number()
     })
-    const paymentInformation = Payment.parse(Payment)
+    const paymentInformation = Payment.parse(body)
     console.log(paymentInformation)
-    
     try {
         await db.$transaction([
             db.balance.updateMany({
@@ -44,21 +31,13 @@ app.post("/hdfcwebhook" , async (req , res)=>{
                }
            })
        ])
-   console.log(req.body)
-       res.json({
-           message: "Captured"
-       })
+       return NextResponse.json({message: "Captured"} , )
     } catch (e) {
         console.log('====================================');
         console.log(e); 
         console.log('====================================');
-        res.status(411).json({
+        NextResponse.json({
             message : "Error on webhook processing"
-        })
+        } , {status:411})
     }
-})
-
-
-app.listen(8000 , ()=>{
-    console.log("Listening on port 8000")
-})
+}
