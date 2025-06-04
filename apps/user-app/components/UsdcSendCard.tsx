@@ -39,6 +39,7 @@ export function UsdcSendCard() {
             <TextInput
               placeholder={"Number"}
               label="Number"
+              value={number}
               onChange={(value) => {
                 setNumber(value);
               }}
@@ -46,6 +47,7 @@ export function UsdcSendCard() {
             <TextInput
               placeholder={"Amount"}
               label="Amount"
+              value={amount}
               onChange={(value) => {
                 setAmount(value);
               }}

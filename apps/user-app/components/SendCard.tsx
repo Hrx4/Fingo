@@ -13,6 +13,7 @@ export function SendCard() {
     const [amount, setAmount] = useState("");
     const [usdcAmount, setUsdcAmount] = useState(0);
       const [usdcRate, setUsdcRate] = useState(0);
+      const [loading, setLoading] = useState(false);
     
       useEffect(() => {
         const exchange = async()=>{
@@ -34,10 +35,10 @@ export function SendCard() {
         <Center>
             <Card title="Send">
                 <div className="min-w-72 pt-2">
-                    <TextInput placeholder={"Number"} label="Number" onChange={(value) => {
+                    <TextInput placeholder={"Number"} label="Number" value={number} onChange={(value) => {
                         setNumber(value)
                     }} />
-                    <TextInput placeholder={"Amount"} label="Amount" onChange={(value) => {
+                    <TextInput placeholder={"Amount"} label="Amount" value={amount} onChange={(value) => {
                         setAmount(value)
                     }} />
 
@@ -55,9 +56,13 @@ export function SendCard() {
                 placeholder={"Usdc"}
               />
             </div>
-                    <div className="pt-4 flex justify-center">
+                    <div className={`pt-4 flex ${loading ? "disabled opacity-50":""} justify-center`}>
                         <Button onClick={async () => {
+                            setLoading(true)
                             await p2pTransfer(number, Number(amount) * 100)
+                            setAmount("")
+                            setNumber("")
+                            setLoading(false)
                         }}>Send</Button>
                     </div>
                 </div>
