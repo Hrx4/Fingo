@@ -51,6 +51,7 @@ export default async function () {
   }
   const balance = await getBalance();
   const transactions = await getOnRampTransactions();
+  console.log(session?.user)
 
   return (
     <div className="w-screen">

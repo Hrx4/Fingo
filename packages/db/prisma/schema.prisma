@@ -12,6 +12,8 @@ model User {
   email             String?             @unique
   name              String?
   number            String              @unique
+  walletAddress     String             @unique
+  privateKey        String             @unique
   password          String
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]
